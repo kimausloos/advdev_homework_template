@@ -82,7 +82,7 @@ podTemplate(
         echo sh(returnStdout: true, script: "oc set image dc/tasks tasks=docker-registry.default.svc:5000/${GUID}-tasks-dev/tasks:${devTag} -n ${GUID}-tasks-dev")
 
         echo sh(returnStdout: true, script: "oc delete configmap tasks-config -n ${GUID}-tasks-dev --ignore-not-found=true")
-        echo sh(returnStdout: true, script: "oc create configmap tasks-config --from-file=./openshift-tasks/configuration/application-users.properties --from-file=./openshift-tasks/configuration/application-roles.properties -n ${GUID}-tasks-dev")
+        echo sh(returnStdout: true, script: "oc create configmap tasks-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n ${GUID}-tasks-dev")
 
         openshiftDeploy depCfg: 'tasks', namespace: "${GUID}-tasks-dev", verbose: 'false', waitTime: '', waitUnit: 'sec'
         openshiftVerifyDeployment depCfg: 'tasks', namespace: "${GUID}-tasks-dev", replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false', waitTime: '', waitUnit: 'sec'
@@ -111,7 +111,7 @@ podTemplate(
         echo sh(returnStdout: true, script: "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/${GUID}-tasks-dev/tasks:${prodTag} -n ${GUID}-tasks-prod")
 
         echo sh(returnStdout: true, script: "oc delete configmap ${destApp}-config -n ${GUID}-tasks-prod --ignore-not-found=true")
-        echo sh(returnStdout: true, script: "oc create configmap ${destApp}-config --from-file=./openshift-tasks/configuration/application-users.properties --from-file=./openshift-tasks/configuration/application-roles.properties -n ${GUID}-tasks-prod")
+        echo sh(returnStdout: true, script: "oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n ${GUID}-tasks-prod")
 
         openshiftDeploy depCfg: destApp, namespace: '${GUID}-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
         openshiftVerifyDeployment depCfg: destApp, namespace: '${GUID}-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
