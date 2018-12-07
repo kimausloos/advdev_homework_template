@@ -64,7 +64,7 @@ podTemplate(
       // Publish the built war file to Nexus
       stage('Publish to Nexus') {
         echo "Publish to Nexus"
-        echo sh(returnStdout: true, script: mvnCmd+"deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::http://nexus3.gpte-hw-cicd.svc.cluster.local:8081/repository/releases")
+        echo sh(returnStdout: true, script: mvnCmd+"deploy -DskipTests=true")
       }
 
       // Build the OpenShift Image in OpenShift and tag it.
@@ -72,6 +72,9 @@ podTemplate(
         echo "Building OpenShift container image tasks:${devTag}"
 
         // TBD: Build Image, tag Image
+        sh "oc start-build tasks --follow --from-file=http://nexus3.gpte-hw-cicd.svc.cluster.local:8081/repository/maven-all-public/repository/releases/org/jboss/quickstarts/eap/tasks/${version}/tasks-${version}.war -n ${GUID}-tasks-dev"
+
+        openshiftTag alias: 'false', destStream: 'tasks', destTag: devTag, destinationNamespace: "${GUID}-tasks-dev", namespace: "${GUID}-tasks-dev", srcStream: 'tasks', srcTag: 'latest', verbose: 'false'
       }
 
       // Deploy the built image to the Development Environment.
