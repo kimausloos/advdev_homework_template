@@ -121,7 +121,7 @@ podTemplate(
       stage('Switch over to new Version') {
         echo "Switching Production application to ${destApp}, without question"
         echo sh(returnStdout: true, script: 'oc patch route tasks -n '+"${GUID}"+'-tasks-prod -p \'{"spec":{"to":{"name":"' + destApp + '"}}}\'')
-        openshiftVerifyService namespace: "${GUID}-tasks-prd", svcName: 'tasks', verbose: 'false'
+        openshiftVerifyService namespace: destApp, svcName: 'tasks', verbose: 'false'
       }
     }
   }
