@@ -47,7 +47,7 @@ podTemplate(
       }
 
       stage("Parallel") {
-        parallel {
+        parallel (
   	      // Using Maven run the unit tests
   	      'Unit Tests': {
   	        echo "Running Unit Tests"
@@ -58,7 +58,7 @@ podTemplate(
   	        echo "Running Code Analysis"
             echo sh(returnStdout: true, script: mvnCmd+"sonar:sonar -Dsonar.host.url=http://sonarqube.gpte-hw-cicd.svc.cluster.local:9000")
   	      }
-        }
+        )
       }
 
       // Publish the built war file to Nexus
