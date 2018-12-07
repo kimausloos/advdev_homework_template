@@ -14,5 +14,10 @@
       <username>gpte</username>
       <password>redhat</password>
     </server>
+    <server>
+      <id>nexus-snapshots</id>
+      <username>gpte</username>
+      <password>redhat</password>    
+    </server>
   </servers>
 </settings>
