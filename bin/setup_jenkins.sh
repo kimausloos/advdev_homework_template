@@ -28,14 +28,18 @@ items:
       type: "Git"
       contextDir: "openshift-tasks"
       git:
-        uri: "${REPO}"
+        uri: "$REPO"
     strategy:
       type: "JenkinsPipeline"
       jenkinsPipelineStrategy:
         jenkinsfilePath: Jenkinsfile
+        env:
+        - name: "REPO"
+          value: "$REPO"
+        - name: "GUID"
+          value: "$GUID"
 kind: List
 metadata: []" | oc create -f - -n $GUID-jenkins
-
 
 # Make sure that Jenkins is fully up and running before proceeding!
 while : ; do
