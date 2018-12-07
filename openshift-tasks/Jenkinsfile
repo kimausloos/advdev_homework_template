@@ -49,13 +49,12 @@ podTemplate(
       stage("Parallel") {
         parallel {
   	      // Using Maven run the unit tests
-  	      stage('Unit Tests') {
+  	      'Unit Tests': {
   	        echo "Running Unit Tests"
             echo sh(returnStdout: true, script: mvnCmd+"test")
-  	      }
-  	
+  	      },
   	      // Using Maven to call SonarQube for Code Analysis
-  	      stage('Code Analysis') {
+  	      'Code Analysis': {
   	        echo "Running Code Analysis"
             echo sh(returnStdout: true, script: mvnCmd+"sonar:sonar -Dsonar.host.url=http://sonarqube.gpte-hw-cicd.svc.cluster.local:9000")
   	      }
