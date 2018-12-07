@@ -64,7 +64,7 @@ podTemplate(
       // Publish the built war file to Nexus
       stage('Publish to Nexus') {
         echo "Publish to Nexus"
-        echo sh(returnStdout: true, script: mvnCmd+"deploy -DskipTests=true")
+        echo sh(returnStdout: true, script: mvnCmd+"deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::http://nexus3.gpte-hw-cicd.svc.cluster.local:8081/repository/releases")
       }
 
       // Build the OpenShift Image in OpenShift and tag it.
